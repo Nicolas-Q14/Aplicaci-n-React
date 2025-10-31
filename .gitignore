@@ -1,0 +1,4 @@
+#Dependecias Node.js
+node_modules/
+#Achivos de entorno
+.env

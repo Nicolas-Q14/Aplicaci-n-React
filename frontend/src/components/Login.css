@@ -5,31 +5,39 @@
   align-items: center;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .login-card {
   background: white;
   padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
+  transition: transform 0.3s ease;
+}
+
+.login-card:hover {
+  transform: translateY(-5px);
 }
 
 .login-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
 }
 
 .login-header h2 {
   color: #333;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   font-size: 28px;
+  font-weight: 600;
 }
 
 .login-header p {
   color: #666;
   font-size: 14px;
+  line-height: 1.4;
 }
 
 .login-form {
@@ -38,69 +46,173 @@
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  position: relative;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   color: #333;
   font-weight: 500;
+  font-size: 14px;
 }
 
 .form-group input {
   width: 100%;
-  padding: 12px;
+  padding: 14px 16px;
   border: 2px solid #e1e5e9;
-  border-radius: 5px;
+  border-radius: 8px;
   font-size: 16px;
-  transition: border-color 0.3s;
+  transition: all 0.3s ease;
   box-sizing: border-box;
+  background-color: #fafbfc;
 }
 
 .form-group input:focus {
   outline: none;
   border-color: #667eea;
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #a0a4a8;
 }
 
 .login-button {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  padding: 12px;
-  border-radius: 5px;
+  padding: 15px;
+  border-radius: 8px;
   font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.3s;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  letter-spacing: 0.5px;
 }
 
 .login-button:hover:not(:disabled) {
-  opacity: 0.9;
+  opacity: 0.95;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.login-button:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .login-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .error-message {
-  background: #fee;
-  color: #c33;
-  padding: 10px;
-  border-radius: 5px;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
   margin-bottom: 20px;
   text-align: center;
-  border: 1px solid #fcc;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
 }
 
 .login-footer {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 25px;
   color: #666;
   font-size: 14px;
+  border-top: 1px solid #e1e5e9;
+  padding-top: 20px;
 }
 
-.login-footer span {
+.login-footer h4 {
+  color: #333;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.test-credentials {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 25px;
+  border-left: 4px solid #667eea;
+}
+
+.test-credentials h4 {
+  color: #333;
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.test-credentials p {
+  color: #555;
+  margin: 8px 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.test-credentials strong {
   color: #667eea;
-  font-weight: 500;
+  font-weight: 600;
+}
+
+/* Efectos de carga */
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 15px;
+  }
+  
+  .login-card {
+    padding: 30px 25px;
+  }
+  
+  .login-header h2 {
+    font-size: 24px;
+  }
+  
+  .form-group input {
+    padding: 12px 14px;
+  }
+}
+
+/* Efectos de entrada */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-card {
+  animation: slideIn 0.6s ease-out;
 }

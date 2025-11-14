@@ -16,6 +16,19 @@ router.get('/', (req, res) => {
         res.json(results);
     });
 });
+router.get('/', (req, res) => {
+    const query = 'SELECT * FROM usuarios where email = ? and password = ?';
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error al obtener usuarios:', err);
+            return res.status(500).json({
+                error: 'Error al obtener usuarios',
+                details: err.message
+            });
+        }
+        res.json(results);
+    });
+});
 
 // GET - Obtener un usuario por ID
 router.get('/:id', (req, res) => {
@@ -112,6 +125,42 @@ router.delete('/:id', (req, res) => {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
         res.json({ message: 'Usuario eliminado exitosamente' });
+    });
+});
+// VERIFICAR LOGIN DE USUARIO
+router.post('/login', (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({
+            success: false,
+            message: 'Email y contraseña son requeridos'
+        });
+    }
+
+    const query = 'SELECT id, nombre, email, telefono FROM usuarios WHERE email = ? AND password = ?';
+    
+    db.query(query, [email, password], (err, results) => {
+        if (err) {
+            console.error('Error en login:', err);
+            return res.status(500).json({
+                success: false,
+                message: 'Error del servidor'
+            });
+        }
+
+        if (results.length > 0) {
+            res.json({
+                success: true,
+                message: 'Login exitoso',
+                user: results[0]
+            });
+        } else {
+            res.status(401).json({
+                success: false,
+                message: 'Credenciales incorrectas'
+            });
+        }
     });
 });
 

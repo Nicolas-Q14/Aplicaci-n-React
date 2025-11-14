@@ -3,20 +3,10 @@ import axios from 'axios';
 import './Login.css';
 
 function Login({ onLogin }) {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-    setError('');
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,20 +14,18 @@ function Login({ onLogin }) {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/login', formData);
+      const response = await axios.post('http://localhost:5001/api/usuarios/login', {
+        email,
+        password
+      });
       
       if (response.data.success) {
-        // Guardar token y datos de usuario en localStorage
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-        
-        // Notificar al componente padre
         onLogin(response.data.user);
       } else {
-        setError(response.data.message || 'Error en el login');
+        setError(response.data.message);
       }
-    } catch (error) {
-      setError(error.response?.data?.message || 'Error de conexión');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Error de conexión con el servidor');
     } finally {
       setLoading(false);
     }
@@ -47,51 +35,53 @@ function Login({ onLogin }) {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <h2>Iniciar Sesión</h2>
-          <p>Bienvenido a nuestra empresa</p>
+          <h2>Bienvenido</h2>
+          <p>Ingresa tus credenciales para acceder al sistema</p>
         </div>
-
-        <form onSubmit={handleSubmit} className="login-form">
-          {error && <div className="error-message">{error}</div>}
-
+        
+        <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="email">Email:</label>
+            <label>Correo Electrónico</label>
             <input
               type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="tu@email.com"
+              required
+              disabled={loading}
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Contraseña</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+              disabled={loading}
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Contraseña:</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              placeholder="Ingresa tu contraseña"
-            />
-          </div>
+          {error && <div className="error-message">{error}</div>}
 
           <button 
             type="submit" 
-            className="login-button"
             disabled={loading}
+            className="login-button"
           >
-            {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+            {loading ? (
+              <>
+                <span className="loading-spinner"></span>
+                Verificando...
+              </>
+            ) : (
+              'Iniciar Sesión'
+            )}
           </button>
         </form>
 
-        <div className="login-footer">
-          <p>¿No tienes cuenta? <span>Contacta al administrador</span></p>
-        </div>
       </div>
     </div>
   );

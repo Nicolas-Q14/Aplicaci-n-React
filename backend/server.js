@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const usuariosRoutes = require('./routes/usuarios');
-const authRoutes = require('./routes/auth'); // Nueva línea
 
 const app = express();
 const PORT = 5001;
@@ -9,8 +8,8 @@ const PORT = 5001;
 app.use(cors());
 app.use(express.json());
 
+// SOLO RUTAS DE USUARIOS
 app.use('/api/usuarios', usuariosRoutes);
-app.use('/api/auth', authRoutes); // Nueva línea
 
 app.get('/', (req, res) => {
   res.json({ message: 'API de Usuarios funcionando correctamente' });
